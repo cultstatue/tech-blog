@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../../models');
+const { User, Comment, Post } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 // GET /api/users
@@ -18,22 +18,38 @@ router.get('/', (req, res) => {
 
 // GET /api/users/1// GET /api/users/1
 router.get('/:id', (req, res) => {
-    User.findOne({
-      where: {
-        id: req.params.id
-      }
-    })
-      .then(dbUserData => {
-        if (!dbUserData) {
-          res.status(404).json({ message: 'No user found with this id' });
-          return;
+  User.findOne({
+    attributes: { exclude: ['password'] },
+    where: {
+      id: req.params.id
+    },
+    include: [
+      {
+        model: Post,
+        attributes: ['id', 'title', 'post_text', 'created_at']
+      },
+      // include the Comment model here:
+      {
+        model: Comment,
+        attributes: ['id', 'comment_text', 'created_at'],
+        include: {
+          model: Post,
+          attributes: ['title']
         }
-        res.json(dbUserData);
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-      });
+      }
+    ]
+  })
+    .then(dbUserData => {
+      if (!dbUserData) {
+        res.status(404).json({ message: 'No user found with this id' });
+        return;
+      }
+      res.json(dbUserData);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
   });
 
   // log in route
@@ -57,7 +73,7 @@ router.get('/:id', (req, res) => {
   
       res.json({ user: dbUserData, message: 'You are now logged in!' });
     });
-  });
+});
   
 // POST /api/users
 router.post('/', (req, res) => {
