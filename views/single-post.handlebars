@@ -1,0 +1,39 @@
+<div class="container-fluid m-3">
+  <h1>{{post.title}}</h1>
+  <h4>by {{post.user.username}} on {{post.created_at}}</h4>
+  <p>
+    {{post.post_text}}
+  </p>
+    <a href="/post/{{post.id}}">{{post.comments.length}} comment(s)</a>
+</div>
+
+{{#if loggedIn}}
+<form class="comment-form">
+  <div class="form-group m-3">
+    <div class="form-group">
+    <textarea class="form-control" name="comment-body" rows="3"></textarea>
+  </div>
+   <button type="submit" class="btn btn-primary mb-2">Add Comment</button>
+</form>
+{{/if}}
+
+<section>
+    {{#each post.comments}}
+    <div class="card m-3">
+        <div class="card-body">
+
+            <h5 class="card-title">{{user.username}} said</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{created_at}}</h6>
+
+            <p class="card-text">
+                {{comment_text}}
+            </p>
+
+        </div>
+    </div>
+    {{/each}}
+</section>
+
+{{#if loggedIn}}
+<script src="/javascript/comment.js"></script>
+{{/if}}
