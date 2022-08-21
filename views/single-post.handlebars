@@ -1,10 +1,10 @@
 <div class="container-fluid m-3">
   <h1>{{post.title}}</h1>
-  <h4>by {{post.user.username}} on {{post.created_at}}</h4>
+  <h4>by {{post.user.username}} on {{format_date post.created_at}}</h4>
   <p>
     {{post.post_text}}
   </p>
-    <a href="/post/{{post.id}}">{{post.comments.length}} comment(s)</a>
+    <a href="/post/{{post.id}}">{{post.comments.length}} {{format_plural "comment" post.comments.length}}</a>
 </div>
 
 {{#if loggedIn}}
@@ -17,22 +17,7 @@
 </form>
 {{/if}}
 
-<section>
-    {{#each post.comments}}
-    <div class="card m-3">
-        <div class="card-body">
-
-            <h5 class="card-title">{{user.username}} said</h5>
-            <h6 class="card-subtitle mb-2 text-muted">{{created_at}}</h6>
-
-            <p class="card-text">
-                {{comment_text}}
-            </p>
-
-        </div>
-    </div>
-    {{/each}}
-</section>
+{{> comments post.comments}}
 
 {{#if loggedIn}}
 <script src="/javascript/comment.js"></script>

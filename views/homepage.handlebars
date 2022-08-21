@@ -3,9 +3,9 @@
     <div class="card m-3">
     <h5 class="card-header">{{post.title}}</h5>
     <div class="card-body">
-        <h5 class="card-title">{{post.created_at}} by {{post.user.username}}</h5>
+        <h6 class="card-title">{{format_date post.created_at}} by {{post.user.username}}</h6>
         <p class="card-text">{{post.post_text}}</p>
-        <a href="/post/{{post.id}}"class="btn btn-primary">{{post.comments.length}} comment(s)</a>
+        <a href="/post/{{post.id}}"class="btn btn-primary">{{post.comments.length}} {{format_plural "comment" comments.length}}</a>
     </div>
     </div>
     {{/each}}
