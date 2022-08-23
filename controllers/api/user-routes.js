@@ -128,7 +128,7 @@ router.put('/:id',withAuth, (req, res) => {
       });
 });
 
-router.post('/logout', (req, res) => {
+router.post('/logout',withAuth, (req, res) => {
   if (req.session.loggedIn) {
     req.session.destroy(() => {
       res.status(204).end();
@@ -140,7 +140,7 @@ router.post('/logout', (req, res) => {
 });
 
 // DELETE /api/users/1
-router.delete('/:id', (req, res) => {
+router.delete('/:id', withAuth, (req, res) => {
     User.destroy({
       where: {
         id: req.params.id
