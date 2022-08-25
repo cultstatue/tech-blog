@@ -19,7 +19,7 @@
   ## Usage
   The website can be interacted with via the provided heroku link.
         
-  https://frozen-harbor-50662.herokuapp.com/
+  https://ancient-ridge-13260.herokuapp.com/
 
   ## Contribution
   N/A
